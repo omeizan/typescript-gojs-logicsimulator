@@ -1,0 +1,27 @@
+.App{
+margin:0;
+display: flex;
+justify-content: center;
+align-items:center;
+flex-direction: row;
+}
+.diagram-component {
+  width: px;
+  height: 700px;
+  border: solid 1px black;
+  background-color: white;
+  margin: 5px;
+}
+.mypalette{
+  width: 400px;
+  height: 400px;
+  border: solid 1px black;
+  background-color: white;
+  
+}
+.truth-table{
+  width: 400px;
+  height: 295px;
+  border: 1px solid black;
+  margin-top: 5px;
+}
