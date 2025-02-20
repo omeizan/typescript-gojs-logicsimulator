@@ -231,7 +231,7 @@ export var sharedToolTip =
             $(go.Panel,go.Panel.Position,
               $(go.TextBlock,
                 {
-                   
+                  name: "title",
                   text: "i",
                   font: "bold 14pt serif",
                   stroke: "white",
@@ -278,7 +278,7 @@ export var sharedToolTip =
               
               $(go.TextBlock,
                 {
-                   
+                  name :"title",
                   text: "o",
                   font: "bold 14pt serif",
                   stroke: "white",

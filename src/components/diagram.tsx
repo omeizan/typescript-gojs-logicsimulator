@@ -77,12 +77,11 @@ var green = "forestgreen";  // 1 or true
 export function updateStates(diagram:go.Diagram) {
    
    
-    var inputcount = 0;
-    var outputcount = 0;
+  var inputOutputCount = 0;
     // do all "input" nodes first
     diagram.nodes.each(node => {
       if (node.category === "input") {
-        doInput(node,inputcount++);
+        doInput(node,inputOutputCount++);
       }
     });
     // now we can do all other kinds of nodes
@@ -97,7 +96,7 @@ export function updateStates(diagram:go.Diagram) {
         case "xnor": doXnor(node); break;
         case "fixedHigh":doFixedHigh(node); break;
         case "fixedLow":doFixedLow(node);break;
-        case "output": doOutput(node,outputcount++); break;
+        case "output": doOutput(node,inputOutputCount++); break;
         case "input": break;  // doInput already called, above
       }
     });
@@ -117,10 +116,10 @@ export function updateStates(diagram:go.Diagram) {
   // determine the color of links coming out of this node based on those coming in and node type
 
   function doInput(node:go.Node,count:number) {
-    // the output is just the node's Shape.fill
-    var shp= node.findObject("value") as go.TextBlock
+    
+    var shp= node.findObject("title") as go.TextBlock
   
-    shp.text = count.toString();
+    shp.text = numberToAlphabet(count);
     setOutputLinks(node, (node.findObject("NODESHAPE") as go.Shape).fill as string);
   }
 
@@ -166,13 +165,19 @@ export function updateStates(diagram:go.Diagram) {
     setOutputLinks(node, color);
   }
 
-  function doOutput(node:go.Node,count:number) {
-    // assume there is just one input link
-    // we just need to update the node's Shape.fill
-    var shp= node.findObject("value") as go.TextBlock
-  
-    shp.text = count.toString();
-    
+  function numberToAlphabet(num:number) {
+    let str = "";
+    let offset = num + 1
+    while (offset > 0) {
+        offset--; 
+        str = String.fromCharCode(65 + (offset % 26)) + str;
+        offset = Math.floor(offset / 26);
+    }
+    return str.toUpperCase();
+}
 
+  function doOutput(node:go.Node,count:number) {
+    var shp= node.findObject("title") as go.TextBlock
+    shp.text = numberToAlphabet(count);
     node.linksConnected.each((link:go.Link) => { (node.findObject("NODESHAPE") as go.Shape).fill  = (link.findObject("SHAPE") as go.Shape).stroke; });
   }
